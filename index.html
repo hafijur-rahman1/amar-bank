@@ -12,7 +12,7 @@
         <h1 class="text-center">Welcome to Amar Bank</h1>
         <div class="submit-area">
             <h4>Login</h4>
-            <input id="depositAmount" type="text" class="form-control" placeholder="Email">
+            <input  type="text" class="form-control" placeholder="Email">
             <br>
             <input type="password" class="form-control" name="" placeholder="Password" id="">
             <br>
@@ -30,13 +30,13 @@
             <div class="col-md-4 ">
                 <div class="withdraw status">
                     <h5>withdraw</h5>
-                    <h2>$00</h2>
+                    <h2>$<span id="currentWithdraw">00</span></h2>
                 </div>
             </div>
             <div class="col-md-4">
                <div class="balance status">
                 <h5>Balance</h5>
-                <h2>$1200</h2>
+                <h2>$<span id="currentBalance">1250</span></h2>
                </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
              <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Deposit</h4>
-                    <input type="text" class="form-control" placeholder="$ amount you want to deposit">
+                    <input id="depositAmount" type="text" class="form-control" placeholder="$ amount you want to deposit">
                     <br>
                     <button id="addDeposit" class="btn btn-success">Deposit</button>
                 </div>
@@ -52,9 +52,9 @@
              <div class="col-md-6">
                  <div class="submit-area">
                     <h4>withdraw</h4>
-                    <input type="text" class="form-control" placeholder="$ amount You want to withdraw">
+                    <input id="withdrawAmount" type="text" class="form-control" placeholder="$ amount You want to withdraw">
                     <br>
-                    <button class="btn btn-success">withdraw</button>
+                    <button id="addWithdraw" class="btn btn-success">withdraw</button>
                  </div>
              </div>
          </div>
@@ -71,16 +71,44 @@
         //deposit button add handler
         const depositBtn = document.getElementById("addDeposit");
         depositBtn.addEventListener("click", function(){
-             const depositAmount = document.getElementById("depositAmount").value;
-             const depositNumber = parseFloat(depositAmount);
+            // const depositAmount = document.getElementById("depositAmount").value;
+           
+             const depositNumber =getInputNumber("depositAmount");
 
-             const currentDeposit = document.getElementById("currentDeposit").innerText;
-             const currentDepositNumber = parseFloat(currentDeposit);
-             const totalDeposit = depositNumber + currentDepositNumber;
-             
-             document.getElementById("currentDeposit").innerText = totalDeposit;
+            //  const currentDeposit = document.getElementById("currentDeposit").innerText;
+            //  const currentDepositNumber = parseFloat(currentDeposit);
+            //  const totalDeposit = depositNumber + currentDepositNumber;
+            //  document.getElementById("currentDeposit").innerText = totalDeposit;
+            updateSpainText("currentDeposit", depositNumber);
+            updateSpainText("currentBalance", depositNumber);
+
              document.getElementById("depositAmount").value ="";
         })
+        //withdraw button handler
+        const withdrawBtn = document.getElementById("addWithdraw");
+        withdrawBtn.addEventListener("click", function(){
+            const withdrawNumber = getInputNumber("withdrawAmount");
+             
+             updateSpainText("currentWithdraw", withdrawNumber);
+             updateSpainText("currentBalance", -1 * withdrawNumber);
+
+             document.getElementById("withdrawAmount").value = "";
+        })
+        function getInputNumber(id){
+            const amount = document.getElementById(id).value;
+            const amountNumber = parseFloat(amount);
+            return amountNumber;
+        }
+           
+        
+
+        function updateSpainText(id, depositNumber){
+            const current = document.getElementById(id).innerText;
+             const currentNumber = parseFloat(current);
+             const totalAmount = depositNumber + currentNumber;
+             document.getElementById(id).innerText =totalAmount;
+
+        }
 
     </script>
 
